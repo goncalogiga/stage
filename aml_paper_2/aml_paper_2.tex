@@ -206,6 +206,14 @@ Assuming $a \leq b$, we want to proove $(\phi < a) \Rightarrow (\phi < b)$. From
 
 Now we assume $(\phi < a) \Rightarrow (\phi < b)$ and we would like to prove $a \leq b$, wich is equivalent to $a \odot b = b$ given AS3b. From this first assumption we get $(\phi < a \lor \phi < b) \Leftrightarrow \phi < b$ (cf. previous proof) and so AS4 gives us the formula $\phi < a \odot b \Leftrightarrow \phi < b$. Using the formula we assumed $((\phi < p) \Leftrightarrow (\phi < q)) \Rightarrow p = q$ with $p = a \odot b$ and $q = b$ we get $a \odot b = b$.
 
+\
 
+\noindent
+\underline{Proof of iii)}: Let's suppose AS3 for $a$ and $b$ in the set of regular elements: \\
+$(a \leq b \Leftrightarrow \forall \phi (\phi < a) \Rightarrow (\phi < b))$ (we're using the formulation discussed in proof i.).
+
+\
+
+Assuming $(\phi < a) \Leftrightarrow (\phi < b)$ we have, from AS3 applied two times where only the order of $a$ and $b$ changes, $a \leq b$ and $b \leq a$. This gives us $a=b$ because of the antisymmetry proprety.
 
 \end{document}
