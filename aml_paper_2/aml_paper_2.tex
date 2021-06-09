@@ -1,0 +1,211 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amssymb} 
+\usepackage{array,multirow,makecell}
+\usepackage{comment}
+\usepackage{fullpage} 
+\usepackage{graphicx}
+\usepackage{bussproofs}
+\usepackage{mathtools}
+\usepackage[makeroom]{cancel}
+\graphicspath{ {./images/} }
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{tikz} 
+\usetikzlibrary{positioning}
+
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage{xcolor}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\newtcolorbox{mybox}[3][]
+{
+  colframe = #2!25,
+  colback  = #2!10,
+  coltitle = #2!20!black,  
+  title    = {#3},
+  #1,
+}
+
+\title{Finite Atomized Semilattices - Notes}
+
+\begin{document}
+\maketitle
+
+\section{Preliminaries}
+
+\subsection{Semilllatice}
+
+\begin{tcolorbox} 
+	\textbf{Definition:} A \textit{semillatice} is an algebra $(M,\odot)$ where $\odot$ is a commutative, associative and idempotent binary operation.
+\end{tcolorbox}
+
+From this very simple definition we can already define a partial order we denote $\leq$. Indeed, a partial order is a binary relation $R$ that is reflexive, antisymetric and transitive. All these propreties derive from the commutativity, associativity and idempotence of $\odot$:
+
+\
+
+Let us define $\leq$ such that $a\leq b$ iff $a \odot b = b$.
+
+\
+
+The idempotence proprety gives us the reflexivity $a \leq a = a \odot a = a$.  
+
+\
+
+From the commutativity of $\odot$ we get: $a \odot b = b \odot a$. So if $a \leq b$ and $b \leq a$ and therefore $a \odot b = b$ and $b \odot a = a$, then $a=b$.
+
+\
+
+From the associativity of $\odot$: $a \odot (b \odot c) = (a \odot b) \odot c$; so if $a \leq b$ and $b \leq c$ we have $a \odot b = b$ and $b \odot c = c$; so $a \odot (b \odot c) = a \odot c = (a \odot b) \odot c = b \odot c = c$. Therefore we've got $a \leq c$ given that we prooved $a \odot c = c$. 
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Definition:} We say $a \leq b$ in a semilattice $M$ if and only if $M \Vdash (b = b \odot a)$.
+\end{tcolorbox}
+
+\subsection{Terms, constants and atoms}
+
+\subsubsection{In the first paper}
+
+The first paper describing AML uses semilattices to embed problems into an algebra. The binary operation is called merge (symbol $\odot$) and the set $S$ has three types of of elements: constants, terms and atoms.
+
+\
+
+Terms should describe the objects of the problem. For exemple, terms can represent images as matrices. Here's a simple exemple of a 4-pixel image described by a term $T$:
+
+\begin{equation*}
+    T = \begin{bmatrix}
+    c_1 & c_2 \\
+    c_3 & c_4
+    \end{bmatrix}
+\end{equation*}
+
+Here $c_1, c_2, c_3$ and $c_4$ are constants, the primitive description elements of any embedding problem, and so the previous representation of $T$ in the algebra $S$ is:
+
+\begin{equation*}
+    T = c_1 \odot c_2 \odot c_3 \odot c_4
+\end{equation*}
+
+Atoms are elements created by the learning algorithm, represented by greek letters, and each constant is a merge of atoms. Here, $T$ is therefore a merge of atoms too.
+
+\subsubsection{In the second paper}
+
+In the second paper, the elements of the free algebra $F_C(\emptyset)$ are called terms. A duple $r = (r_L, r_R)$ is defined as an ordered pair of elements of $F_C(\emptyset)$. Positive and negative duples, written $r^+$ and $r^-$, are used as follows: we say $M \Vdash r^+$ iff $M \Vdash r_L \leq r_R$ and we say $M \Vdash r^-$ iff $M \not\Vdash r_L \leq r_R$. 
+
+\
+
+A semilattice model $M$ is said to be \textit{atomized} when it is extended with a set of additional elements called atoms. Each semilattice is a partial order and an atomization of the semillatice is an extension of the partial order. However, an atomized semilattice is not a semilattice extension; meaning in atomized semilattices the idempotent operator is defined exclusively for regular elements while the order relation is defined for all, atoms and regular elements. 
+Formaly, this means that $\leq$ is defined for all elements of the atomized semilattice but $\odot$ is restricted to the regular elements of the atomized semilattice..
+
+\
+
+Given that $\leq$ is well defined for all elements of the atomized semilattice; it is therefore a \textbf{partially ordered set}. Let us formalize this into a definition.
+
+\subsection{Formal definition of an atomized semilattice}
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Definition:} An atomized semilattice over a set of constants $C$ is a structure $M$ with elements of two sorts, the regular elements $\{a,b,c,...\}$ and the atoms $\{\phi, \psi, ...\}$, with an itempotent, commutative and associative binary operator $\odot$ defined for regular elements and a partial order relation $<$ that is defined for all elements, such that the regular elements are either constants or idempotent summations of constants, and M satisfies the axioms of the operations and the additional:
+
+\
+
+	AS1: $$\forall \phi \exists c, (c \in C) \land (\phi < c)$$
+	AS2: $$\forall \phi \forall a (a \not \leq \phi)$$
+	AS3: $$\forall a \forall b (a \leq b \Leftrightarrow \neg \exists \phi, ((\phi < a) \land (\phi \not < b))$$
+	AS4: $$\forall \phi \forall a \forall b (\phi < a \odot b \Leftrightarrow (\phi < a) \lor (\phi < b))$$
+	AS5: $$\forall c \in C ((\phi < c) \Leftrightarrow (\psi < c)) \Rightarrow (\phi = \psi)$$
+	AS6: $$\forall a \exists \phi, (\phi < a)$$
+\end{tcolorbox}
+
+\colorbox{yellow}{Notes}
+
+\begin{itemize} 
+	\item AS1 states that for each atom, there exists a constant in $C$ edeged to it. So every atom is edeged to at least one constant. ie; there are no "hanging" atoms.	
+	\item AS2 states that atoms are at the bottom of the relation order (if we visualize the order relation in a graph)
+	\item AS3 states that for every couple of regular elements, if $b$ is higher than $a$, then there is no atom that is edged to $a$ but not to $b$; ie. if $a \leq b$, all atoms ,edeged to $a$ are also edged to $b$.
+	\item AS4 states the following: every atom edeged to the merge of $a$ and $b$ must be edged to either $a$ or $b$.
+	\item AS5 states that every couple of atoms that are edged to the same constants must be equal.
+	\item AS6 states that each regular element is edged to at least one atom.
+\end{itemize}
+
+\
+
+
+Here, $<$ represents the partial order relation between any element of the atomized semilattice. In this formal definiton, $\leq$ is the partial order relation defined from  the operator $\odot$ like it was shown in section 1.1
+
+\
+
+However, $a \leq b \Leftrightarrow a \odot b = b$ is not an axiom and it should be verified that $\leq$ still holds. Let's define a new formula called AS3b: $\forall a \forall b (a \leq b \Leftrightarrow a \odot b = b)$.
+
+\
+
+\begin{mybox}{red}{\textbf{Theorem 1}}
+	Assume AS4 and the antisymmetry of the order relation.
+	\begin{itemize} 
+		\item i) AS3 implies AS3b
+		\item ii) Assume $\forall a \forall b (\forall \phi (( \phi < a ) \Leftrightarrow (\phi < b)) \Rightarrow (a = b))$. Then AS3b $\Rightarrow$ AS3.
+		\item iii) AS3 implies $\forall a \forall b ( \forall \phi ((\phi < a) \Leftrightarrow (\phi < b)) \Rightarrow (a = b))$.
+	\end{itemize}
+\end{mybox}
+
+\noindent
+\underline{Proof for i):} Let $a$ and $b$ be regular elements of an atomized semilattice. Let's suppose that $a \leq b$ holds. From AS3 we get $\neg \exists \phi, ((\phi < a) \land (\phi \not < b))$. Developping the negation and using the logical implication gives us the expression $\forall \phi ((\phi < a) \Rightarrow (\phi < b))$ which states very clearly that each atom edged to $a$ must also be edged to $b$.
+
+\
+
+Therefore we have $(\phi < a \lor \phi < b \Leftrightarrow \phi < b)$. Indeed, if we imagine a tree proof, the only proposition that wouldn't be imediatly true is $\phi < a \Rightarrow \phi < b$ but we just showed this is also true.
+
+\
+
+Given the last proposition, AS4 becomes $(\phi < a \odot b \Leftrightarrow \phi < b)$. The antisymmetry of $<$ gives us a way of getting $a \odot b = b$ if we proove $(a \odot b < b) \land (b < a \odot b)$. This can be done by splitting the equivalence we got from AS4 into $(\phi < a \odot b) \Rightarrow (\phi < b)$ and $(\phi < b) \Rightarrow (\phi < a \odot b)$. By using AS3 from right to left we get both $a \odot b < b$ and $b < a \odot b$, giving us the desired result.
+
+\
+
+Now let's assume that $a \odot b = b$. From AS4 we get $(\phi < b \Leftrightarrow (\phi < a) \lor (\phi < b))$ so $\phi < a \Rightarrow \phi < b$. Applying AS3 directly gives us $a \leq b$.
+
+\
+
+\noindent
+\underline{Proof of ii):} Let $a$ and $b$ be rergular elements of an atomized semilattice such that for each atom $\phi$: $((\phi < a) \Leftrightarrow (\phi <  b)) \Rightarrow a = b$. Let's assume that AS3b is true: $a \leq b \Leftrightarrow a \odot b = b$.
+
+\
+
+Assuming $a \leq b$, we want to proove $(\phi < a) \Rightarrow (\phi < b)$. From $a \leq b$, AS4 becomes: $(\phi < b) \Leftrightarrow (\phi < a) \lor (\phi < b)$; which gives us our proof.
+
+\
+
+Now we assume $(\phi < a) \Rightarrow (\phi < b)$ and we would like to prove $a \leq b$, wich is equivalent to $a \odot b = b$ given AS3b. From this first assumption we get $(\phi < a \lor \phi < b) \Leftrightarrow \phi < b$ (cf. previous proof) and so AS4 gives us the formula $\phi < a \odot b \Leftrightarrow \phi < b$. Using the formula we assumed $((\phi < p) \Leftrightarrow (\phi < q)) \Rightarrow p = q$ with $p = a \odot b$ and $q = b$ we get $a \odot b = b$.
+
+
+
+\end{document}

@@ -1,0 +1,448 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amssymb} 
+\usepackage{array,multirow,makecell}
+\usepackage{comment}
+\usepackage{fullpage} 
+\usepackage{graphicx}
+\usepackage{bussproofs}
+\usepackage{mathtools}
+\graphicspath{ {./images/} }
+
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\newtcolorbox{mybox}[3][]
+{
+  colframe = #2!25,
+  colback  = #2!10,
+  coltitle = #2!20!black,  
+  title    = {#3},
+  #1,
+}
+
+\title{Introduction aux Treillis}
+
+\begin{document}
+
+\maketitle
+
+\section{Premières définitions}
+
+\subsection{Définition d'un Treillis}
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Soit $L$ un ensemble non vide, $\lor$ et $\land$ deux relations binaires (appelées \textit{join} et \textit{meet}). On dit que $L$ est un treillis si on a pour $x$ et $y$ dans $L$:
+	\begin{itemize} 
+		\item $x \odot y = y \odot x$ (commutativité)
+		\item $x \odot (y \odot z) = (x \odot y) \odot z$ (associativité)
+		\item $x \odot x = x$ (idempotence)
+		\item $x = x \lor (x \land y)$ et $x = x \land (x \lor y)$ (absoprtion)
+	\end{itemize}
+
+	où $\odot$ est soit $\lor$, soit $\land$.
+\end{tcolorbox}
+
+\subsection{Rappels sur les relations d'ordres}
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Une relation binaire $R$ définie sur un ensemble $E$ est une relation d'ordre si: 
+	\begin{itemize} 
+		\item $xRx$ (Réflexivité)
+		\item $\forall x,y \in E,$ si $xRy$ et $yRx$ alors $x=y$ (Antisymétrie).
+		\item si $xRy$ et $yRz$ alors $xRz$ (Transitivité).
+	\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Un Ensemble partiellement ordonné est un ensemble muni d'une relation d'ordre. On le notera, d'après l'anglais, \textbf{poset}.
+\end{tcolorbox}
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Une relation binaire $R$ définie sur un ensemble $E$ est une relation d'ordre totale si $R$ est une relation d'ordre et:
+	$\forall x,y \in E$ tel que $x \neq y$: $xRy$ ou $yRx$.
+\end{tcolorbox}
+
+\subsection{Rappels sur les bornes inférieures et suppérieures}
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Soit $A$ un sous-ensemble d'un poset. Soit $p \in P$; on dit que $p$ est un majorant de $A$ si $\forall a \in A, a \leq p$. Si $p$ est le plus-petit des majorants; ie: $\forall b \in A$, $b$ majore $A$ implique $p \leq b$, alors $p$ est la borne supérieure de $A$.
+
+\
+
+	De façon analogue, on définit le minorant d'un ensemble ainsi que sa borne inférieur (plus grand minorant de $A$).
+
+\end{tcolorbox}
+
+\subsection{Liens entre poset et treillis}
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Soit $L$ un poset. $L$ est un treillis ssi $\forall a,b \in L$, il existe $sup\{a,b\}$ et $inf\{a,b\}$.
+\end{tcolorbox}
+
+Cette définition à besoin de quelques précisions: pour établir le liens entre le treillis et le poset il faut d'abord définir une relation d'ordre avec les deux relations binaires du treillis. Ainsi on définit la relation d'ordre $\leq$ comme tel:
+
+$$a \leq b \Leftrightarrow a \lor b = b$$
+
+Vérifions que $\leq$ est bien une relation d'ordre:
+
+\
+
+\underline{Réflexivité:} $a \leq a \Leftrightarrow a \lor a = a$ (idempotence).
+
+\
+
+\underline{Antisymétrie:} $a \leq b$ et $b \leq a$ $\Leftrightarrow$ $a \lor b = b$ et $b \lor a = a$. Avec la commutativité de $\lor$ on a: $a \lor b = b = b \lor a = a$ donc $a = b$.
+
+\
+
+\underline{Transitivité:} $a \leq b$ et $b \leq c$ implique $a \leq c$ $\Leftrightarrow$ $a \lor b = b$ et $b \lor c = c$ implique $a \lor c = c$. En effet, par associativité on a: $a \lor (b \lor c) = (a \lor b) \lor c \Leftrightarrow a \lor c = b \lor c = c$.
+
+\
+
+On a donc bien $\leq$ qui est une relation d'ordre.
+
+\
+
+Reste à vérifier que:
+
+$$sup(a,b) = a \lor b \text{ et } inf(a,b) = a \land b$$
+
+\
+
+Le premier cas est trivial puisque $sup(a,b) = a$ ssi $a \lor b = a$ ssi $b \lor a = a$ ssi $b \leq a$ et de manière équivalente $sup(a,b) = b$ ssi $a \leq b$. Ainsi, la borne suppérieur de l'ensemble $\{a,b\}$ est bien définie dans le treillis. Pour le deuxième cas, il est aussi évident si on utilise la propritété suivante: $a \leq b \Leftrightarrow a \land b = a$ prouvée graçe à l'absorption.
+
+\
+
+Un treillis est donc \textbf{définit} par le fait qu'il existe, pour tout couple d'élements, une borne suppérieure et une borne inférieure de leur ensemble.
+
+\section{Treillis isomorphiques et sous-treillis}
+
+\subsection{Rappel des définitions \textit{logiques} de morphimes et isomorphismes}
+
+\begin{tcolorbox} 
+    Soient $M$ et $N$ deux interpétations d'un langage $L$.
+    
+    \begin{itemize}
+        \item Un $L$-morphisme de $M$ dans $N$ est une fonction $\phi: |M| \rightarrow |N|$ telle que:
+        \begin{itemize}
+            \item Pour chaque symbole de constante $c$ on a: $\phi(c_M) = c_N$
+            \item Pour chaque symbole de fonction $n$-aire $f$ et pour $a_1, ... a_n \in |M|$ on a: $\phi(f_M(a_1,...,a_n)) = f_N(\phi(a_1), ..., \phi(a_n))$.
+            \item Pour chaque symbole de relation $n$-aire de $R$ (autre que $=$) et pour $a_1, ... a_n \in |M|$ on a: $(a_1, ..., a_n) \in R_M$ ssi $(\phi(a_1), ..., \phi(a_n)) \in R_N$. 
+        \end{itemize}
+        \item Un $L$-isomorphisme est un $L$-morphisme bijectif.
+        \item $M$ et $N$ sont $L$-isomorphes s'il existe un $L$-isomorphisme de $M$ dans $N$.
+    \end{itemize}
+\end{tcolorbox}
+
+\noindent
+\underline{Remarque et exemple}
+
+\begin{itemize}
+    \item La notion de morphisme dépend du langage. Soit $L = \{0, +, -, \times\}$ et $L' = \{1\} \cup L$. Soient $\mathbb{Z}/3\mathbb{Z}$ et $\mathbb{Z}/12\mathbb{Z}$ les interprétations usuelles. La fonction $\phi: n \rightarrow 4n$ de $\mathbb{Z}/3\mathbb{Z}$ dans $\mathbb{Z}/12\mathbb{Z}$ est un $L$-morphisme puisque $\phi(0_L) = 0_L' = 0_L$, $\phi(0_M +_M 0_M) = \phi(0_M) +_N \phi(0_M) = 0_M +_M + 0_M = 0_M = 4*0_M$ ect. Par contre, $\phi$ n'est pas $L'$-morphisme puisque $\phi(1_M) = 4 \neq 1_N$.
+\end{itemize}
+
+En guise d'exemple, on peut vérifier que si $L = \{c,f,S\}$ et $M$ et $N$ sont définies par:
+
+\begin{itemize}
+    \item $|M| = \mathbb{R}, c_M = 0, f_M(a,b) = a + b$ et $S_M = \{(a,b) / a \leq b\}$
+    \item $|N| = ]0, \infty [, c_N = 1, f_N(a,b) = ab$ et $S_N = \{(a,b) / a \leq b \}$
+\end{itemize}
+
+Alors la fonction $\phi : x \rightarrow e^{x}$ est un isomorphisme de $M$ dans $N$.
+
+En effet:
+
+\begin{itemize}
+    \item $\phi(c_M) = c_N$ est vérifié puisque $e^0 = 1$.
+    \item $\phi(f_M(a,b)) = f_N(\phi(a),\phi(b))$ est vérifié puisque $e^{a + b} = e^ae^b$
+    \item $a,b \in S_M \text{ ssi } \phi(a),\phi(b) \in S_N$ est aussi vérifié puisque $a \leq b$ ssi $e^a \leq e^b$ par croissance de la fonction exponentielle.
+\end{itemize}
+
+\subsection{Isomorphimes dans les treillis}
+
+D'après la séction précédente, on comprend qu'en somme, un isomorphisme est une fonction bijective entre deux structures (ou ensembles). Chaque élements de la première structure est donc transformé en un nouvel élement dans la deuxième (la notion de langage ne sert pas ici). 
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Deux treillis $L_1$ et $L_2$ sont dit \textit{isomorphes} s'il existe une bijection \\
+	$\alpha: L_1 \rightarrow L_2$ telle que $\forall a,b \in L_1: \alpha(a \land b) = \alpha(a) \land \alpha(b)$ et $\alpha(a \lor b) = \alpha(a) \lor \alpha(b)$.
+\end{tcolorbox}
+
+On remarque que cette définition est une application directe de la définition de la séction 2.1 pour les symboles de relations. C'est logique, $\lor$ et $\land$ sont précisement des relations binaires.
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Soit $P_1$ et $P_2$ deux posets et $\alpha$ une \textit{map} (ie. une fonction de $P_1$ dans $P_2$ ?) de $P_1$ et $P_2$. On dit que $\alpha$ préserve l'ordre (\textit{$\alpha$ is order-preserving}) si pour tout élement $a,b \in P_1$ tels que $a \leq b$ on a $\alpha(a) \leq \alpha(b)$ dans $P_2$.
+\end{tcolorbox}
+
+De cette définition; on obtient notre premier théorème sur les treillis:
+
+\
+
+\begin{mybox}{red}{\textbf{Théorème 1}}
+	Deux treillis $L_1$ et $L_2$ sont isomorphes ssi il existe une bijection $\alpha: L_1 \rightarrow L_2$ telle que $\alpha$ et $\alpha^{-1}$ préservent l'ordre. 
+\end{mybox}
+
+\noindent
+\underline{Preuve:} Soit $L_1$ et $L_2$ deux treillis isomorphes. Par définition, il existe une bijection $\alpha$ de $L_1$ dans $L_2$ telle que $\forall a,b \in L_1: \alpha(a \odot b) = \alpha(a) \odot \alpha(b)$ où $\odot$ est $\lor$ ou $\land$. On veut montrer que $\alpha$, ainsi que $\alpha^{-1}$ préservent l'ordre, ie. vérifient:
+
+$$\forall a,b \in L_1, a \leq b \Rightarrow \alpha(a) \leq \alpha(b)$$
+
+\
+
+Par définition, on sait que $a \leq b \Leftrightarrow a \lor b = b$. De plus, $\alpha(a \lor b) = \alpha(a) \lor \alpha(b)$ donc si $a \lor b = b$ alors $\alpha(a) \lor \alpha(b) = \alpha(b)$ donc $\alpha(a) \leq \alpha(b)$. On a bien $a \leq b \Rightarrow \alpha(a) \leq \alpha(b)$.
+
+\
+
+Enfin, étant donné que l'inverse d'un isomorphisme est un isomorphisme; une preuve analogue montre le même résultat pour $\alpha^{-1}: L_2 \rightarrow L_1$.
+
+\
+
+Supposons maintenant qu'il existe une bijection $\alpha$ telle que $\alpha$ et $\alpha^{-1}$ préservent l'ordre. On veut montrer qu'il existe une bijection $\alpha'$ telle que $\forall a,b \in L_1: \alpha'(a \odot b) = \alpha'(a) \odot \alpha'(b)$ où $\odot$ est $\lor$ ou $\land$. On veut évidemment montrer que $\alpha$ est $\alpha'$ dans la formule précédente.
+
+\
+
+Comme il est clair que $a \lor a \lor b = a \lor b$ (idempotence) on a $a \leq a \lor b$. De même, il est clair qu'on a $b \leq a \lor b$ (puisque $b \lor a \lor b = a \lor b$). Puisque $\alpha$ conserve l'ordre on a aussi: $\alpha(a) \leq \alpha(a \lor b)$ et $\alpha(b) \leq \alpha(a \lor b)$. Ainsi: $\alpha(a) \lor \alpha(b) \leq \alpha(a \lor b)$ puisque $sup(\alpha(a),\alpha(b))$ vaut soit $\alpha(a)$ soit $\alpha(b)$ et que par définition $sup(x,y) = x \lor y$.
+
+\
+
+Pour montrer $\alpha(a \lor b) = \alpha(a) \lor \alpha(b)$ il reste à montrer que $\alpha(a \lor b) \leq \alpha(a) \lor \alpha(b)$.
+
+\
+
+Soit $u$ tel que $\alpha(a) \lor \alpha(b) \leq u$. Alors, par définition de la borne suppérieur il faut que $\alpha(a) \leq u$ et $\alpha(b) \leq u$. Ainsi $a \leq \alpha^{-1}(u)$ et $b \leq \alpha^{-1}(u)$. On a donc $a \lor b \leq \alpha^{-1}(u)$, soit $\alpha(a \lor b) \leq u$. En prennant $u = \alpha(a) \lor \alpha(b)$ on obtient le résultat souhaité.
+
+\
+
+La preuve pour $\alpha(a \land b) = \alpha(a) \land \alpha(b)$ se fait par analogie avec la preuve précédente. Notons bien que cette preuve ne peut être faite sans le fait que $\alpha^{-1}$ préserve l'ordre.
+
+\newpage
+
+\subsection{Sous-treillis}
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Si $L$ est un treillis et $L'$ est un sous-ensemble de $L$ non vide tel que $\forall a,b \in L': a \land b \in L'$ et $a \lor b \in L'$ où $\land$ et $\lor$ sont les opérateurs du treillis $L$; on dit que $L'$, avec les mêmes opérateurrs restreins à $L'$, est un \textit{sous-treillis} de $L$.
+\end{tcolorbox}
+
+\
+
+Si $L'$ est un sous-treillis de $L$, on a bien sûr $a \leq b$ dans $L'$ ssi $a \leq b$ dans $L$.
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} On dit qu'un treillis $L_1$ est intégré (\textit{embedded}) dans un treillis $L_2$ si il existe un sous-treillis de $L_2$ qui est isomorphe avec $L_1$. On peut aussi dire que $L_2$ contient une copie de $L_1$ en tant que sous-treillis. 
+\end{tcolorbox}
+
+\section{Treillis distributifs et modulaires}
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Un treillis \textit{distributif} est un treillis qui satisfait les lois de distribution:
+
+	$$D_1: x \land (y \lor z) = (x \land y) \lor (x \land z)$$
+	$$ D_2: x \lor (y \land z) = (x \lor y) \land (x \lor z)$$
+\end{tcolorbox}
+
+\
+
+En réalité, pour montrer qu'un treillis est distributif; il suffit de prouver une seule de ces conditions comme le prouve le théorème suivant:
+
+\
+
+\begin{mybox}{red}{\textbf{Théorème 2}}
+	Un treillis $L$ satisfait $D_1$ ssi il satisfait $D_2$.
+\end{mybox}
+
+\noindent
+\underline{Preuve:} Supposons que $L$ satisfait $D_1$. On rappel la règle de l'abosrption pour un treillis: $x = x \lor (x \land y)$. Ainsi:
+
+$$x \lor (y \land z) = (x \lor (x \land z)) \lor (y \land z)$$
+
+En utilisant la commutativité et l'associativité on obtient:
+
+$$x \lor (y \land z) = x \lor ((z \land x) \lor (z \land y))$$
+
+Qui vaut, d'après $D_1$:
+
+$$ x \lor (y \land z) = x \lor (z \land (x \lor y))$$
+
+Par commutativité:
+
+$$ x \lor (y \land z) = x \lor ((x \lor y) \land z)$$
+
+On applique l'abosroption sur $x$: $x = x \land (x \lor y)$:
+
+
+$$ x \lor (y \land z) = (x \land (x \lor y)) \lor ((x \lor y) \land z)$$
+
+On peut réaranger:
+
+
+$$ x \lor (y \land z) = ((x \lor y) \land x) \lor ((x \lor y) \land z)$$
+
+On retrouve très clairement le côté droit de $D_1$; donc:
+
+$$x \lor (y \land z) = (x \lor y) \land (x \lor z)$$
+
+Une preuve analogue montre l'autre sens de l'équivalence.
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Un treillis \textit{modulaire} est un treillis qui satisfait la loi suivante:
+	$$M: x \leq y \rightarrow x \lor (y \land z) = y \land (x \lor z)$$
+\end{tcolorbox}
+
+\
+
+\begin{mybox}{red}{\textbf{Théorème 3}}
+	Tout treillis distributif est aussi modulaire.
+\end{mybox}
+
+\noindent
+\underline{Preuve:} Soit $L$ un treillis distributif. Soit $a,b \in L$ tels que $a \leq b$. Par définition on sait donc que $a \lor b = b$. On vent montrer que pour tout $c$ dans $L$: $a \lor (b \land c) = b \land (a \lor c)$.
+
+\
+
+Comme $L$ est distributif et $a \lor b = b$ on a immédiatement, pour tout $c$:
+
+$$a \lor (b \land c) = (a \lor b) \land (a \lor c) = b \land (a \lor c)$$
+
+\section{Treillis complets et treillis algébriques [RC]}
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Un poset $P$ est dit \textit{complet} si pour chaque sous-ensemble $A$ de $P$, $sup(A)$ et $inf(A)$ existent (sur $P$). On voit immédiatement que tout poset complet est un treillis. 
+\end{tcolorbox}
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} On appel \textit{treillis complet} tout treillis qui est un poset complet. 
+\end{tcolorbox}
+
+\
+
+\begin{mybox}{red}{\textbf{Théorème 4}}
+	Si $P$ un poset tel que $\bigwedge A$ (ie. borne inférieure de $A$; \textit{meet} dans le jargon) existe pour chaque sous ensemble $A$ de $P$ \textbf{ou} que $\bigvee A$ (ie. borne supérieure de $A$; \textit{join} dans le jargon) existe pour chaque sous ensemble $A$ de $P$. Alors $P$ est un treillis complet.
+\end{mybox}
+
+\noindent
+\underline{Preuve:} Soit $P$ un poset tel que $\bigwedge A$ existe pour chaque sous ensemble $A$ de $P$. Soit $A^u$ l'ensemble des bornes suppérieures de $A$ dans $P$: $A^u =\{sup(a,b) \text{ / } a,b \in A \subseteq P\}$.
+
+\
+
+$$\bigwedge A^u = \bigwedge \{sup(a,b) \text{ / } a,b \in A \subseteq P\} = \bigvee A$$
+
+Puisque, par définition, la borne suppérieure de $A$ est la plus petite borne suppérieure de chaqu'un des élements de $A$ pris deux à deux (soit la plus petite borne suppérieure de $A^u$, soit la borne inférieure ($\bigwedge$) de $A^u$. 
+
+\
+
+On prouve, de manière analogue, que $A^l =\{inf(a,b) \text{ / } a,b \in A \subseteq P\}$ vérifie $\bigvee A^l = \bigwedge A$.
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} On dit qu'un sous-treillis $L'$ d'un treillis $L$ est \textit{sous-treillis complet} de $L$ si pour chaque sous-ensemble $A$ de $L'$ les élements $\bigwedge A$ et $\bigvee A$ tels qu'ils sont définis sur $L$, sont définis sur $L'$. 
+\end{tcolorbox}
+
+\begin{tcolorbox} 
+	\textbf{Notation et rappel:} On note $Eq(A)$ l'ensemble des relations d'équivalences sur $A$.
+
+	\
+
+	\underline{Rappel:} Une relation d'équivalence $R$ sur $A$ est une relation binaire qui vérifie, pour tout $a,b,c \in A:$
+	\begin{itemize} 
+		\item $aRa$ (réflexivité)
+		\item $aRb$ implique $bRA$ (symétrie)
+		\item $aRb$ et $bRc$ implique $aRc$ (transitivité)
+	\end{itemize}
+\end{tcolorbox}
+
+\
+
+\begin{mybox}{red}{\textbf{Théorème 5:}}
+	Le poset $Eq(A)$, avec $\subseteq$ comme relation d'ordre, est un treillis complet.
+\end{mybox}
+
+\noindent
+\underline{Preuve:} 
+
+\
+
+Soit $R_1$ et $R_2$ deux relations d'équivalence dans un ensemble $A$. La borne inférieur de l'ensemble de ces relations d'équivalences est $R_1 \cap R_2$. L'intersection de ces deux relations d'équivalence corréspond en effet à la relation d'équivalence $Q$ définie comme suit: $aQb$ ssi $aR_1b$ et $aR_2b$. Il en suit que l'intersection de l'ensemble des relations d'équivalence est contenue dans toutes les relations d'équivalences (ie. la borne inférieure)
+
+\
+
+Ainsi, la borne inférieur de $Eq(A)$ est $\bigcap_{R_a \in Eq(A)} R_a$ et elle existe bien.
+
+\
+
+....
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Une partition $\pi$ d'un ensemble $A$ est une famille non vide de couples disjoints de sous-ensembles de $A$ tels que $A = \bigcup \pi$. Les ensembles de $\pi$ dont applés les blocs de $\pi$. L'ensemble de toutes les partitions de $A$ est noté $\Pi(A)$.
+
+\
+
+\end{tcolorbox}
+
+Pour $\pi$ dans $\Pi(A)$ on peut définir une relation d'équivalence $\theta(\pi)$:
+
+$$\theta(\pi) =\{\{a,b\} \subseteq B \text{ pour } B \in \pi\ \text{ / } a,b \in A^2\}$$
+ 
+...
+
+\begin{tcolorbox} 
+	\textbf{Définition:} Soit $L$ un treillis. Un élement $a$ de $L$ est \textit{compact} ssi: lorsque $\bigvee A$ existe et $a \leq \bigvee A$ pour $A \subseteq L$, alors $a \leq \bigvee B$ pour un ensemble fini $B \subseteq A$. On dit que $L$ est \textit{généré compactement} ssi chaque élément de $L$ est une borne suppérieur d'éléments compacts. On dit qu'un treillis est \textbf{algébrique} ssi il est complet et généré compactement.
+\end{tcolorbox}
+
+\section{Algèbres booléenes}
+
+\begin{tcolorbox} 
+	\textbf{Définition:} On dit qu'une algèbre $<B, \lor, \land, ', 0, 1>$ muni de deux opérations binaires ('ou' et 'et') d'une relation unaire (le complémentaire) et de deux constantes $0$ et $1$ est une \textit{algèbre booléene} si elle satisfait: 
+	$$<B, \lor, \land> \text{est un treillis distributif}$$
+	$$x \land 0 = 0, x \lor 1 = 1$$
+	$$x \land x' = 0, x \lor x' = 1$$
+\end{tcolorbox}
+
+\end{document}
