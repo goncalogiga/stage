@@ -1,0 +1,163 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amssymb} 
+\usepackage{array,multirow,makecell}
+\usepackage{comment}
+\usepackage{fullpage} 
+\usepackage{graphicx}
+\usepackage{bussproofs}
+\usepackage{mathtools}
+\graphicspath{ {./images/} }
+
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\newtcolorbox{mybox}[3][]
+{
+  colframe = #2!25,
+  colback  = #2!10,
+  coltitle = #2!20!black,  
+  title    = {#3},
+  #1,
+}
+
+\begin{document}
+
+\section{Preliminairies: The Closure Operation}
+
+\begin{tcolorbox} 
+	\textbf{Definition:} The powerset of a set $A$ is the set of all subsets of $A$, including the emptyset and $A$ itself. It will be denoted $\mathbb{P}(A)$ here and it is denoted \textit{Su(A)} in the book, \textit{Su} meaning subsets.
+
+\end{tcolorbox}
+
+\begin{tcolorbox} 
+	\textbf{Definition:} If we are given a set $A$, a mapping $C: \mathbb{P}(A) \rightarrow \mathbb{P}(A)$ is called a closure operation on $A$, if, for $X,Y \subseteq A$, it satisfies: \\
+	(extensive)$$ X \subseteq C(X)$$
+	(idempotent) $$ C^2(X) = C(X)$$
+	(isotone) $$X \subseteq Y \rightarrow C(X) \subseteq C(Y)$$ 
+
+\end{tcolorbox}
+
+\section{Isomorphic Algebras and Subalgebras}
+
+An isomorphism is a concept often used in particular casas like isomorphisms in group thoery or lattice theory. All these definitions derive from the general definition of isomorphisms in all algebras. 
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Definition:} Let $A$ and $B$ be two algebras. Then a function $\alpha : A \rightarrow B$ is an isomorphism from A to B if $\alpha$ is one-to-one onto, and for every $n$-ary $f$, for $a_1, ..., a_n \in A$, we have:
+
+	$$\alpha (f^A(a_1, ..., a_n)) = f^B(\alpha (a_1), ..., \alpha (a_n))$$
+\end{tcolorbox}
+
+In other words, an isomorphism between two algebras is a bijective morphism (a function mapping elements from $A$ to $B$) that respects the proprety written above. A more formal definition, in french:
+
+\
+
+    Soient $M$ et $N$ deux interpétations d'un langage $L$.
+    
+    \begin{itemize}
+        \item Un $L$-morphisme de $M$ dans $N$ est une fonction $\phi: |M| \rightarrow |N|$ tele que:
+        \begin{itemize}
+            \item Pour chaque symbole de constante $c$ on a: $\phi(c_M) = c_N$
+            \item Pour chaque symbole de fonction $n$-aire $f$ et pour $a_1, ... a_n \in |M|$ on a: $\phi(f_M(a_1,...,a_n)) = f_N(\phi(a_1), ..., \phi(a_n))$.
+            \item Pour chaque symbole de relation $n$-aire de $R$ (autre que $=$) et pour $a_1, ... a_n \in |M|$ on a: $(a_1, ..., a_n) \in R_M$ ssi $(\phi(a_1), ..., \phi(a_n)) \in R_N$. 
+        \end{itemize}
+        \item Un $L$-isomorphisme est un $L$-morphisme bijectif.
+        \item $M$ et $N$ sont $L$-isomorphes s'il existe un $L$-isomorphisme de $M$ dans $N$.
+    \end{itemize}
+
+\newpage
+\noindent
+\underline{Remarque et exemple}
+
+\begin{itemize}
+    \item La notion de morphisme dépend du langage. Soit $L = \{0, +, -, \times\}$ et $L' = \{1\} \cup L$. Soient $\mathbb{Z}/3\mathbb{Z}$ et $\mathbb{Z}/12\mathbb{Z}$ les interprétations usuelles. La fonction $\phi: n \rightarrow 4n$ de $\mathbb{Z}/3\mathbb{Z}$ dans $\mathbb{Z}/12\mathbb{Z}$ est un $L$-morphisme puisque $\phi(0_L) = 0_L' = 0_L$, $\phi(0_M +_M 0_M) = \phi(0_M) +_N \phi(0_M) = 0_M +_M + 0_M = 0_M = 4*0_M$ ect. Par contre, $\phi$ n'est pas $L'$-morphisme puisque $\phi(1_M) = 4 \neq 1_N$.
+\end{itemize}
+
+En guise d'exemple, on peut vérifier que si $L = \{c,f,S\}$ et $M$ et $N$ sont définies par:
+
+\begin{itemize}
+    \item $|M| = \mathbb{R}, c_M = 0, f_M(a,b) = a + b$ et $S_M = \{(a,b) / a \leq b\}$
+    \item $|N| = ]0, \infty [, c_N = 1, f_N(a,b) = ab$ et $S_N = \{(a,b) / a \leq b \}$
+\end{itemize}
+
+Alors la fonction $\phi : x \rightarrow e^{x}$ est un isomorphisme de $M$ dans $N$.
+
+En effet:
+
+\begin{itemize}
+    \item $\phi(c_M) = c_N$ est vérifié puisque $e^0 = 1$.
+    \item $\phi(f_M(a,b)) = f_N(\phi(a),\phi(b))$ est vérifié puisque $e^{a + b} = e^ae^b$
+    \item $a,b \in S_M \text{ ssi } \phi(a),\phi(b) \in S_N$ est aussi vérifié puisque $a \leq b$ ssi $e^a \leq e^b$ par croissance de la fonction exponentielle.
+\end{itemize}
+
+\
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Definition:} Let $A$ and $B$ be two algebras. Then $B$ is a \textit{subalgebra} of $A$ if $B \subseteq A$ and every fundamental operation of $B$ is the restriction of the corresponding operation of $A$, ie. for each function symbol $f$, $f^B$ is $f^A$ restricted to $B$; we write simply $B \leq A$. A \textit{subuniverse} of $A$ is a subset $B$ of $A$ which is closed under the fundemental opperations of $A$, ie. if $f$ is a fundamental $n$-ary operation of $A$ and $a_1, ..., a_n \in B$ we would require $f(a_1, ..., a_n) \in B$.
+\end{tcolorbox}
+
+This definition of subalgebras comes with some limitations: for example, we would like a subalgebra of a group to be a group but a subalgebra would only mean subsemigroup (the positive integers are a subsemigroup of the group of all integers). We should consider a suitable modification (enlrargement) so the concept of subalgebras so it coincides with the ususal notion for several examples of algebras (section 1 of the book).
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Definition:} A function $\alpha: A \rightarrow B$ is an \textit{embedding} of $A$ into $B$ if $\alpha$ is one-to-one (bijective) and satisfies $\alpha (f^A(a_1, ..., a_n)) = f^B(\alpha (a_1), ..., \alpha (a_n))$ (such an $\alpha$ is also called a \textit{monomorphism}) We say $A$ can be \textit{embedded} in B if there is an embedding of $A$ into $B$.
+\end{tcolorbox}
+
+\begin{mybox}{red}{\textbf{Theorem}}
+	if $\alpha : A \rightarrow B$ is an \textit{embedding} then $\alpha(A)$ is a subuniverse of $B$.
+\end{mybox}
+
+\noindent
+\underline{Proof:} Let $\alpha: A \rightarrow B$ be an embedding. Then for any $n$-ary function $f$ and $a_1, ..., a_n \in A$:
+
+$$f^B(\alpha (a_1), ..., \alpha (a_n)) = \alpha (f^A(a_1, ..., a_n))$$
+
+Given that $\alpha$ is a bijection it is clear that $\alpha(A)$ is a subset of $A$. In addition, $\alpha(A)$ is closed on B given that any element of $\alpha(A)$ is the result of a function $f^B$ in $B$ like the previous equation states.
+
+\section{Algebraic Lattices and Subuniverses}
+
+\begin{tcolorbox} 
+	\textbf{Definition:} Given an algebra $A$, for every $X \subseteq A$,
+
+	$$Sg(X) = \bigcap\{B : X \subseteq B \text{ and } B \text{ is a subuniverse of } A\}$$
+
+	$Sg(X)$ is the "subuniverse generated by $X$".
+\end{tcolorbox}
+
+
+
+\end{document}

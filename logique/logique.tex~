@@ -1748,7 +1748,7 @@ $$\exists x_1, x_2, x_3\{R(v,w,x_1) \land R(r,s,x_2) \land R(u,x_1, x_3) \land S
 	\item Si $t$ est une variable ou une constante: $t' = t$ et $Var(t) = A(t) = \emptyset$
 	\item Si $t = g(u_1, ..., u_k)$ où $g$ est une fonction quelconque autre que $f$, alors:\\  $t' = g(u_1', ..., u_k'), Var(t) = \bigcup_{1 \leq i \leq k} Var(u_i)$ et $A(t) = \bigcup_{1 \leq i \leq k} A(u_i)$ 	
 	\item Si $t = f(u_1, ..., u_n)$, alors $t' = y$ où $y$ est une nouvelle variable.\\
-	$Var(t) =\{y\} \cup \bigcup_{1 \leq i \leq n} Var(u_i)$ et $A(t) =\{FFFFR(u_1', ..., u_n')\} \cup \bigcup_{1 \leq i \leq n} A(u_i)$
+	$Var(t) =\{y\} \cup \bigcup_{1 \leq i \leq n} Var(u_i)$ et $A(t) =\{R(u_1', ..., u_n')\} \cup \bigcup_{1 \leq i \leq n} A(u_i)$
 \end{itemize}
 
 Soit $S(t_1, ..., t_k)$ une formule atomique sur $L_1$. On peut donc transformer cette formule en une formule écrite sur $L_2$ en la renplaçant par $\exists y_1, ..., y_p \{S(t_1', ..., t_k') \land\{F / F \in \bigcup_{1 \leq i \leq k} A(t_i)\}$ où $\{y_1, ..., y_p\} = \bigcup_{1 \leq i \leq k} Var(t_i)$.
@@ -1757,4 +1757,4 @@ Soit $S(t_1, ..., t_k)$ une formule atomique sur $L_1$. On peut donc transformer
 
 On prouve le résultat par récurrence sur le nombre d'occurences de $f$ dans la formule atomique.
 
-\end{document}FmoL
+\end{document}
