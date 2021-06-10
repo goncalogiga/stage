@@ -216,4 +216,70 @@ $(a \leq b \Leftrightarrow \forall \phi (\phi < a) \Rightarrow (\phi < b))$ (we'
 
 Assuming $(\phi < a) \Leftrightarrow (\phi < b)$ we have, from AS3 applied two times where only the order of $a$ and $b$ changes, $a \leq b$ and $b \leq a$. This gives us $a=b$ because of the antisymmetry proprety.
 
+\
+
+\
+
+From theorem 1, AS3 and AS3b are equivalent given that we have AS4 and the additional axiom:
+
+$$\forall a \forall b (\forall \phi (( \phi < a ) \Leftrightarrow (\phi < b)) \Rightarrow (a = b))$$
+
+Since this axiom follow from AS3; the partial order of the atomized semilattices does coincide with the semillatice spawned by its regular elements given the axioms of the first definition.
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Proprety:} There is always a natural homomorphism $v_M$ from the term algebra $F_C(\emptyset)$ onto any model $M$ that maps terms to elements of $M$.
+\end{tcolorbox}
+
+\begin{tcolorbox} 
+	\textbf{Definition:} The lower and upper segment of an element $x$ are defined as $L_M(x) =\{y: y < x \lor y = x\}$ and $U_M(x) =\{y : y > x\}$. The superscript $^a$ is used to denote the intersection with the atoms: $L_M^a(x) = L_M(x) \cap A(M)$. The superscript $^c$ is used to represent the intersection with the constants: $L_M^c(x) = L_M(x) \cap C(M)$ (symmetricly, we have $U_M^a$ and $U_M^c$).
+
+	\
+
+	In an atomized semillatice model, $U_M^c(\phi)$ is defined as the set of constants in the upper segment on the atom $\phi$. Since an atom is defined by the constants in its upper segment we often drop the subindex $M$ and simply write $U^c(\phi)$.
+\end{tcolorbox} 
+\
+
+\begin{mybox}{red}{\textbf{Theorem 2}}
+	Let $t,s \in F_C(\emptyset)$ be two terms that represent two regular elements $v_M(t)$ and $v_M(s)$ of an atomized model $M$ over a finite set of constants $C$. Let $\phi$ be an atom, $c$ a constant in $C$ and let $a$ be a regular element of $M$.
+
+	\begin{itemize} 
+		\item i) $\forall t \forall c ( c \in C(t) \Rightarrow v_M(c) \leq v_M(t))$.
+		\item ii) $\phi < v_M(t) \Leftrightarrow \exists c: ((c \in C(t)) \land (\phi < v_M(c)))$.
+		\item iii) $(\phi < a) \Leftrightarrow \exists c: ((c \in C) \land (\phi < v_M(c) \leq a))$
+		\item iv) $L_M^a(v_M(t)) =\{\phi \in M : C(t) \cap U^c(\phi) \neq \emptyset\}$
+		\item v) $L_M^a(v_M(s) \odot v_M(t)) = L_M^a(v_M(t)) \cap L_M^a(v_M(s))$
+		\item vi) $v_M(t) \leq v_M(s) \Leftrightarrow L_M^a(v_M(t)) \subseteq L_M^a(v_M(s))$
+	\end{itemize}
+\end{mybox}
+
+\noindent 
+\underline{Proof of i):} Let $t$ be a term and $c$ a constant. Let's assume $c \in C(t)$; then $t = t \odot c$ given that $c$ is a constant of $t$. Using the definition of the homomorphism $v_M$ we immediatly get $v_M(t \odot c) = v_M(t) \odot v_M(c) = v_M(t)$ which means $v_M(c) \leq v_M(t)$ using AS3b.
+
+\
+
+\noindent
+\underline{Proof of ii):} Let's assume $\phi < v_M(t)$. Given that C(t) contains at least one element, we know that $t = \bigodot_{i \geq 1} c_i$, for $c_i \in C(t)$. In addition, AS4 can be generalized like this for a finite $i$:
+
+$$\phi < \bigodot_i a_i \Leftrightarrow \bigcup_i (\phi < a_i)$$
+
+Using AS4 and the propreties of the homomorphism, we have $\phi < v_M(t) \Leftrightarrow \bigcup_i \phi < v_M(c_i)$ and given our first assumtion, the left term is true so the right one must also be true; ie. there must exist at least one constant (let's name it $c$) such that $\phi < v_M(c)$, making the big union true.
+
+\
+
+\noindent
+\underline{Proof of iii):} By generalizing ii) to any term we get $(\phi < a) \Leftrightarrow \exists c : ((c \in C) \land (\phi < v_M(c)))$. Given that any term as at least one constant that can be merged into it, let's call it $c \in C$, it is also true that $(\phi < a) \Leftrightarrow \exists c : (c \in C) \land (\phi < v_M(c)) \land (v_M(c) \odot a = a)$. Applying AS3b finishes the proof.
+
+
+
+\
+
+\noindent
+\underline{Proof of iv):} (Reminders) We know that $L_M^a(x) =\{y : y < x \lor y = x\} \cap A(M)$; so it is the set of atoms edged to $x$. We also know that $U^c(\phi) =\{y : y > x\} \cap C(M)$; so it is the set of constants that are edged to $\phi$. The intersection $C(t) \cap U^c(\phi)$ is therefore the constants edeged both to $\phi$ and $t$ (the middle layer so to speak). Each atom $\phi$ that verifies $C(t) \cap U^c(\phi) \neq \emptyset$ is therefore edged to each constants that are also edged to $t$.
+
+\
+
+Let $\phi \in L_M^a(v_M(t))$; then $\phi < v_M(t)$ and by ii. : $\exists c : ((c \in C(t) \land (\phi < v_M(c))$. This shows that $c$ is both in $C(t)$ and $U^c(\phi)$ because it is edged to $\phi$. Now let $c \in C(t) \cap U^c(\phi)$, from iii. we get $\phi < v_M(c) \leq v_M(t)$, meaning $\phi \in L_M^a(v_M(t))$. 
+
 \end{document}
