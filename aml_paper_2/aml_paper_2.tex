@@ -249,7 +249,7 @@ Since this axiom follow from AS3; the partial order of the atomized semilattices
 		\item ii) $\phi < v_M(t) \Leftrightarrow \exists c: ((c \in C(t)) \land (\phi < v_M(c)))$.
 		\item iii) $(\phi < a) \Leftrightarrow \exists c: ((c \in C) \land (\phi < v_M(c) \leq a))$
 		\item iv) $L_M^a(v_M(t)) =\{\phi \in M : C(t) \cap U^c(\phi) \neq \emptyset\}$
-		\item v) $L_M^a(v_M(s) \odot v_M(t)) = L_M^a(v_M(t)) \cap L_M^a(v_M(s))$
+		\item v) $L_M^a(v_M(s) \odot v_M(t)) = L_M^a(v_M(t)) \cup L_M^a(v_M(s))$
 		\item vi) $v_M(t) \leq v_M(s) \Leftrightarrow L_M^a(v_M(t)) \subseteq L_M^a(v_M(s))$
 	\end{itemize}
 \end{mybox}
@@ -281,5 +281,91 @@ Using AS4 and the propreties of the homomorphism, we have $\phi < v_M(t) \Leftri
 \
 
 Let $\phi \in L_M^a(v_M(t))$; then $\phi < v_M(t)$ and by ii. : $\exists c : ((c \in C(t) \land (\phi < v_M(c))$. This shows that $c$ is both in $C(t)$ and $U^c(\phi)$ because it is edged to $\phi$. Now let $c \in C(t) \cap U^c(\phi)$, from iii. we get $\phi < v_M(c) \leq v_M(t)$, meaning $\phi \in L_M^a(v_M(t))$. 
+
+\
+
+\noindent
+\underline{Proof of v:} From iv. we have: $L_M^a(v_M(s \odot t)) =\{\phi \in M : C(s \odot t) \cap U^c(\phi) \neq \emptyset\}$. The constants of the merge of $s$ and $t$ are $C(s) \cup C(t)$ so we get $L_M^a(v_M(s \odot t)) =\{\phi \in M : (C(s) \cup C(t)) \cap U^c(\phi) \neq \emptyset\}$. By distribution we get: $L_M^a(v_M(s \odot t)) =\{\phi \in M : C(s) \cap U^c(\phi) \neq \emptyset\} \cup \{\phi \in M : C(t) \cap U^c(\phi) \neq \emptyset\}$. Finaly, using the proprety of the homomorphism and iv. we get: $L_M^a(v_M(s) \odot v_M(t)) = L_M^a(v_M(s)) \cup L_M^a(v_M(t))$.
+
+\
+
+\noindent
+\underline{Proof of vi.} From AS3b, we know that $v_M(t) \leq v_M(s) \Leftrightarrow v_M(t) \odot v_M(s) = v_M(s)$. Using proprety v. we get $v_M(t) \leq v_M(s) \Leftrightarrow L_M^a(v_M(t)) \cup L_M^a(v_M(s)) = L_M^a(v_M(s))$ which gives us \\
+$v_M(t) \leq v_M(t) \Leftrightarrow L_M^a(v_M(t)) \subseteq L_M^a(v_M(s))$ given that for any sets $A$ and $B$: $A \cup B = B \Leftrightarrow A \subseteq B$.
+
+\
+
+\
+
+\
+
+Axiom AS1 says that the upper constant segment of an atom is never empty while axiom AS5 says that two distinct atoms cannot have the same upper constant segment. In other words, an atom is always edged to a constant and to distinct atoms cannot be edged to the same constants.
+
+\
+
+Axiom AS3 implies that the order relation for regular elements is fully determined by the atoms of the model. 
+
+\
+
+Theorem 2. proposition (v) proves the linearity proprety:
+$$ L_M^a(s \odot t) = L_M^a(s) \cup L_M^a(t)$$
+where we have omitted the natural homomorphism.
+
+\
+
+Theorem 2. proposition (vi) and AS3b imply that:
+$$M \Vdash (t = s) \Leftrightarrow L_M^a(t) = L_M^a(s)$$
+
+Meaning it does not matter which term we use to represent a regular element; we get the same atoms using:
+$$L_M^a(t) =\{\phi \in M : C(t) \cap U^c(\phi) \neq \emptyset\}$$
+
+\
+
+In order to use $U^c(\phi)$ instead of $U^c_M(\phi)$ we just need to assume that atoms of different atomized semilattice models that have the same upper constant segments also have the same name. With this choice an atom can be defined by a set $U^c(\phi)$ independetly of other atoms and independetly of the model it belongs to. We can define the atoms by their upper constant segment $U^c(\phi)$ as well as the models by the atoms they have, as follows:
+
+\
+
+\begin{tcolorbox} 
+	\textbf{Definiton:} Consider a non-empty subset $U^c(\phi)$ of a set of constants $C$. For any atomized semilattice $M$ over $C$, any set $A$ of atoms that atomizes $M$ and any constant $c$ in $C$, the atom $\phi$ defined by $U^c(\phi)$ is an atom that satisfies $M \Vdash (\phi < c)$ if and only if $\phi \in A$ and $c \in U^c(\phi)$.
+\end{tcolorbox}
+
+\
+
+Since atoms are non-empty sets of constants, any atomization of a semilattice model is a hpergraph with the atoms as hyperedges and the constants as vertexes.
+
+\newpage
+
+\noindent
+\underline{\textbf{A little on hypergraphs:}}
+
+\
+
+An Hypergraph $H$ is a couple $(V, E)$ where $V =\{v_1, ..., v_n\}$ is a non empty (and generaly finite) set and $E =\{E_1, ..., E_m\}$ is a family of non empty subset of $\mathbb{P}(X)$ (power set of $X$).
+\begin{itemize} 
+	\item Elements of $V$ are the vertexes of $H$.
+	\item Elements of $E$ are the hyperedges of $H$.
+\end{itemize}
+
+The incidence matrix is a matrix that fully caracterizes a hypergraph. It is a simply a matrix of size $n \times m$ that verifies $a_{ij} = 1$ if $v_i \in E_j$ and 0 otherwise.
+
+\
+
+\
+
+Axiom AS3 can be rewritten to show the connections between universally defined atoms and models as:
+
+$$(t \leq_M s) \Leftrightarrow \neg \exists \phi : ((\phi \in M) \land (\phi < t) \land (\phi \not < s))$$
+
+where $t$ and $s$ are terms and $t \leq_M s$ means $M \Vdash (t \leq s)$ and the natural homomorphism as been omitted. We add the subscript in $\leq_M$ to highlight the difference with $<$ that compares atoms and terms independetly of the model. 
+
+\
+
+The next theorem allow us to indentify $U^c(\phi)$ with the upper constant segment of $\phi$ in the freest model $F_C(\emptyset)$ as well as $\leq$ with $\leq_{F_C(\emptyset}$.
+
+\
+
+\begin{mybox}{red}{\textbf{Theorem 3}}
+	If $A$ is a set of atoms that atomizes $F_C(\emptyset)$ and $\psi$ is any atom, the set $A \cup\{\psi\}$ is also an atomization for $F_C(\emptyset)$.
+\end{mybox}
 
 \end{document}
